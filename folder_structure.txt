@@ -1,0 +1,39 @@
+app/
+  main.py
+  core/
+    config.py
+    logging.py
+    security.py
+    deps.py              # common dependencies (get_db, auth, etc.)
+  db/
+    session.py           # engine + SessionLocal
+    base.py              # Base = declarative_base()
+    init_db.py           # optional seed/init
+  models/                # SQLAlchemy models (or split per feature)
+    user.py
+    job.py
+  schemas/               # Pydantic DTOs
+    user.py
+    job.py
+  api/
+    v1/
+      router.py          # include_router(...) aggregator
+      endpoints/
+        health.py
+        users.py
+        jobs.py
+  services/              # business logic (your “controller” layer)
+    user_service.py
+    job_service.py
+  repositories/          # data access layer (queries live here)
+    user_repo.py
+    job_repo.py
+  utils/
+    pagination.py
+    errors.py
+    constants.py
+  tests/
+    test_users.py
+    test_jobs.py
+alembic/
+  versions/
