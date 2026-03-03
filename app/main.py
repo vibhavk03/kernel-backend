@@ -8,7 +8,7 @@ from app.db.session import Base, engine
 Base.metadata.create_all(bind=engine)
 
 
-def create_apdp() -> FastAPI:
+def create_app() -> FastAPI:
     app = FastAPI(title="Kernel Backend API")
 
     app.include_router(v1_router, prefix="/api/v1")
