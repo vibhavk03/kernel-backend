@@ -8,7 +8,9 @@ from pathlib import Path
 from sqlalchemy.orm import Session
 from app.repositories.ingestion_repo import IngestionRepository
 from app.transformers.iqvia_affiliation_transformer import IQVIAAffiliationTransformer
+from app.transformers.iqvia_hcp_transformer import IQVIAHCPTransformer
 from app.validators.iqvia_affiliation_validator import IQVIAAffiliationValidator
+from app.validators.iqvia_hcp_validator import IQVIAHCPValidator
 
 
 class IngestionService:
@@ -17,14 +19,20 @@ class IngestionService:
     def process_local_file(db: Session):
         # --- 1. EXTRACT ---
         base_dir = Path(__file__).resolve().parent.parent
-        file_path = base_dir / "data_local" / "IQVIA" / "IQVIA_OneKey_Affiliations.csv"
+        file_path_affiliation = (
+            base_dir / "data_local" / "IQVIA" / "IQVIA_OneKey_Affiliations.csv"
+        )
+        file_path_hcp = base_dir / "data_local" / "IQVIA" / "IQVIA_OneKey_HCP.csv"
 
-        if not file_path.exists():
-            raise FileNotFoundError(f"Could not find file at {file_path}")
+        if not file_path_affiliation.exists():
+            raise FileNotFoundError(f"Could not find file at {file_path_affiliation}")
+
+        if not file_path_hcp.exists():
+            raise FileNotFoundError(f"Could not find file at {file_path_hcp}")
 
         # We specify dtypes to ensure consistent reading and to prevent pandas from inferring types that might lead to issues later
-        df = pd.read_csv(
-            file_path,
+        df_affiliation = pd.read_csv(
+            file_path_affiliation,
             dtype={
                 "onekey_hcp_id": "string",
                 "npi": "string",
@@ -35,22 +43,47 @@ class IngestionService:
             },
         )
 
+        df_hcp = pd.read_csv(
+            file_path_hcp,
+            dtype={
+                "onekey_hcp_id": "string",
+                "npi": "string",
+                "hcp_name": "string",
+                "specialty": "string",
+                "status": "string",
+                "primary_address_line1": "string",
+                "primary_address_line2": "string",
+                "primary_city": "string",
+                "primary_state": "string",
+                "primary_zip": "string",
+            },
+        )
+
         # remove rows where every column is empty
-        df = df.dropna(how="all")
+        df_affiliation = df_affiliation.dropna(how="all")
+        df_hcp = df_hcp.dropna(how="all")
 
         # --- 2. VALIDATE ---
-        df = IQVIAAffiliationTransformer.transform(df)
-        IQVIAAffiliationValidator.validate(df)
+        df_affiliation = IQVIAAffiliationTransformer.transform(df_affiliation)
+        IQVIAAffiliationValidator.validate(df_affiliation)
+
+        df_hcp = IQVIAHCPTransformer.transform(df_hcp)
+        IQVIAHCPValidator.validate(df_hcp)
 
         # --- 3. TRANSFORM ---
         # toy transform
-        df["processed_by"] = "fastapi_service_layer"
+        df_affiliation["processed_by"] = "fastapi_service_layer"
+        df_hcp["processed_by"] = "fastapi_service_layer"
         # Drop empty columns, rename things, etc.
 
         # --- 3. LOAD (Pass to Repository) ---
         # We let the repository handle the actual database insertion
         rows_inserted = IngestionRepository.save_dataframe(
-            db, df, "raw_iqvia_affiliations"
+            db, df_affiliation, "raw_iqvia_affiliations"
+        )
+
+        rows_inserted += IngestionRepository.save_dataframe(
+            db, df_hcp, "raw_iqvia_hcps"
         )
 
         return {"message": "ETL complete", "rows": rows_inserted}
