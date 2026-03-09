@@ -8,30 +8,34 @@ from pathlib import Path
 from sqlalchemy.orm import Session
 from app.repositories.ingestion_repo import IngestionRepository
 
+
 class IngestionService:
-    
+
     @staticmethod
     def process_local_file(db: Session):
         # --- 1. EXTRACT ---
         # Point to the file in your data_local folder
         base_dir = Path(__file__).resolve().parent.parent
         file_path = base_dir / "data_local" / "IQVIA" / "IQVIA_OneKey_Affiliations.csv"
-        
+
         if not file_path.exists():
             raise FileNotFoundError(f"Could not find file at {file_path}")
-            
+
         df = pd.read_csv(file_path)
-        
+
         # --- 2. TRANSFORM ---
         # Your toy transform
-        df['processed_by'] = 'fastapi_service_layer'
+        df["processed_by"] = "fastapi_service_layer"
         # Drop empty columns, rename things, etc.
-        
+
         # --- 3. LOAD (Pass to Repository) ---
         # We let the repository handle the actual database insertion
-        rows_inserted = IngestionRepository.save_dataframe(db, df, "raw_iqvia_affiliations")
-        
+        rows_inserted = IngestionRepository.save_dataframe(
+            db, df, "raw_iqvia_affiliations"
+        )
+
         return {"message": "ETL complete", "rows": rows_inserted}
+
 
 # from app.repositories.ingestion_repo import (
 #     create_ingestion,
