@@ -7,7 +7,8 @@ import pandas as pd
 from pathlib import Path
 from sqlalchemy.orm import Session
 from app.repositories.ingestion_repo import IngestionRepository
-from app.validators.iqvia_affiliations_validator import IQVIAAffiliationsValidator
+from app.transformers.iqvia_affiliation_transformer import IQVIAAffiliationTransformer
+from app.validators.iqvia_affiliation_validator import IQVIAAffiliationValidator
 
 
 class IngestionService:
@@ -38,7 +39,8 @@ class IngestionService:
         df = df.dropna(how="all")
 
         # --- 2. VALIDATE ---
-        df = IQVIAAffiliationsValidator.validate(df)
+        df = IQVIAAffiliationTransformer.transform(df)
+        IQVIAAffiliationValidator.validate(df)
 
         # --- 3. TRANSFORM ---
         # toy transform
