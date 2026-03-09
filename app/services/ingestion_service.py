@@ -78,15 +78,17 @@ class IngestionService:
 
         # --- 3. LOAD (Pass to Repository) ---
         # We let the repository handle the actual database insertion
-        rows_inserted = IngestionRepository.save_dataframe(
+        affiliation_rows = IngestionRepository.save_dataframe(
             db, df_affiliation, "raw_iqvia_affiliations"
         )
 
-        rows_inserted += IngestionRepository.save_dataframe(
-            db, df_hcp, "raw_iqvia_hcps"
-        )
+        hcp_rows = IngestionRepository.save_dataframe(db, df_hcp, "raw_iqvia_hcps")
 
-        return {"message": "ETL complete", "rows": rows_inserted}
+        return {
+            "message": "ETL complete",
+            "affiliation_rows": affiliation_rows,
+            "hcp_rows": hcp_rows,
+        }
 
 
 # from app.repositories.ingestion_repo import (
