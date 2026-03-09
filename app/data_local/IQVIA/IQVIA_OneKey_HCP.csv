@@ -1,0 +1,111 @@
+﻿onekey_hcp_id,npi,hcp_name,specialty,status,primary_address_line1,primary_address_line2,primary_city,primary_state,primary_zip
+HCP0001,1000000001,"Mia A. Mitchell, MD",Dermatology,Active,375 Harrison Ave,Ste 2A,Boston,MA,02118
+HCP0002,1000000002,"Nina C. Anderson, MD",Dermatology,Active,401 Park Dr,Suite 2,Boston,MA,02215
+HCP0003,1000000003,"Lucas A. Patel, MD",Dermatology,Active,88 Seaport Blvd,Ste 250,Boston,MA,02210
+HCP0004,1000000004,"Ananya A. White, MD",Dermatology,Active,170 Governors Ave,Ste 202,Medford,MA,02155
+HCP0004D,1000000004,"A. White, MD",Dermatology,Active,75 Francis St,,Boston,MA,02115
+HCP0005,1000000005,"Charlotte C. Garcia, MD",Dermatology,Active,800 Boylston St,Suite 1600,Boston,MA,02199
+HCP0006,1000000006,"Charlotte B. Lewis, MD",Dermatology,Active,88 Seaport Blvd,Suite 250,Boston,MA,02210
+HCP0007,1000000007,"John Jackson, MD",Dermatology,Active,1 Charles St S,Suite 300,Boston,MA,02116
+HCP0008,1000000008,"Ethan C. Johnson, MD",Dermatology,Active,1101 Cambridge St,Ste 200,Cambridge,MA,02141
+HCP0009,1000000009,"Samuel E. Harris, MD",Dermatology,Active,401 Park Dr,Ste 2,Boston,MA,02215
+HCP0010,1000000010,"Hana A. Perez, MD",Dermatology,Active,1101 Cambridge St,Ste 200,Cambridge,MA,02141
+HCP0011,1000000011,"Sophia B. Anderson, MD",Dermatology,Active,1101 Cambridge St,Ste 200,Cambridge,MA,02141
+HCP0012,1000000012,"James C. Martinez, MD",Dermatology,Active,2100 Dorchester Ave,Ste 201,Dorchester,MA,02124
+HCP0013,1000000013,"Grace A. Robinson, MD",Dermatology,Active,1 Charles St S,Suite 300,Boston,MA,02116
+HCP0014,1000000014,"Hana A. Lewis, MD",Dermatology,Active,2100 Dorchester Ave,Ste 201,Dorchester,MA,02124
+HCP0014D,1000000014,"H. Lewis, MD",Dermatology,Active,330 Brookline Ave,,Boston,MA,02215
+HCP0015,1000000015,"Isabella E. Turner, MD",Dermatology,Active,2000 Washington St,Ste 400,Newton,MA,02462
+HCP0015D,1000000015,"I. Turner, MD",Dermatology,Active,330 Brookline Ave,,Boston,MA,02215
+HCP0016,1000000016,"William C. Miller, MD",Dermatology,Active,88 Seaport Blvd,Suite 250,Boston,MA,02210
+HCP0017,1000000017,"Lucas A. Mitchell, MD",Dermatology,Active,800 Boylston St,Suite 1600,Boston,MA,02199
+HCP0018,1000000018,"Olivia Anderson, MD",Dermatology,Active,800 Boylston St,Suite 1600,Boston,MA,02199
+HCP0018D,1000000018,"O. Anderson, MD",Dermatology,Active,75 Francis St,,Boston,MA,02115
+HCP0019,1000000019,"Lucas A. Singh, MD",Dermatology,Active,401 Park Dr,Suite 2,Boston,MA,02215
+HCP0020,1000000020,"Priya E. Taylor, MD",Dermatology,Active,1 Charles St S,Ste 300,Boston,MA,02116
+HCP0021,1000000021,"Leila A. Scott, MD",Dermatology,Active,2100 Dorchester Ave,Ste 201,Dorchester,MA,02124
+HCP0022,1000000022,"Evelyn E. Thomas, MD",Dermatology,Active,375 Harrison Ave,Ste 2A,Boston,MA,02118
+HCP0023,1000000023,"Ethan E. Jackson, MD",Dermatology,Active,401 Park Dr,Suite 2,Boston,MA,02215
+HCP0024,1000000024,"Elena C. Roberts, MD",Dermatology,Active,800 Boylston St,Ste 1600,Boston,MA,02199
+HCP0025,1000000025,"James D. Brown, MD",Dermatology,Active,1 Charles St S,Ste 300,Boston,MA,02116
+HCP0026,1000000026,"Amelia Nguyen, MD",Dermatology,Active,40 Holland St,Ste 220,Somerville,MA,02144
+HCP0027,1000000027,"Liam D. King, MD",Dermatology,Active,1101 Cambridge St,Ste 200,Cambridge,MA,02141
+HCP0028,1000000028,"Sara D. Walker, MD",Dermatology,Active,1 Charles St S,Suite 300,Boston,MA,02116
+HCP0029,1000000029,"Joseph D. Jackson, MD",Dermatology,Active,1 Washington St,Ste 620,Boston,MA,02108
+HCP0029D,1000000029,"J. Jackson, MD",Dermatology,Active,330 Brookline Ave,,Boston,MA,02215
+HCP0030,1000000030,"Harper B. Carter, MD",Dermatology,Active,800 Boylston St,Suite 1600,Boston,MA,02199
+HCP0031,1000000031,"Harper C. Harris, MD",Dermatology,Active,2000 Washington St,Ste 400,Newton,MA,02462
+HCP0032,1000000032,"Grace E. Patel, MD",Dermatology,Active,2100 Dorchester Ave,Ste 201,Dorchester,MA,02124
+HCP0032D,1000000032,"G. Patel, MD",Dermatology,Active,330 Brookline Ave,,Boston,MA,02215
+HCP0033,1000000033,"Noah Adams, MD",Dermatology,Active,55 Jamaica St,Ste 210,Jamaica Plain,MA,02130
+HCP0034,1000000034,"David A. Turner, MD",Dermatology,Active,375 Harrison Ave,Suite 2A,Boston,MA,02118
+HCP0035,1000000035,"Abigail A. Robinson, MD",Dermatology,Active,375 Harrison Ave,Ste 2A,Boston,MA,02118
+HCP0036,1000000036,"Joseph D. Patel, MD",Dermatology,Active,800 Boylston St,Suite 1600,Boston,MA,02199
+HCP0036D,1000000036,"J. Patel, MD",Dermatology,Active,75 Francis St,,Boston,MA,02115
+HCP0037,1000000037,"Mia B. Johnson, MD",Dermatology,Active,401 Park Dr,Suite 2,Boston,MA,02215
+HCP0038,1000000038,"Alexander Thomas, MD",Dermatology,Active,830 Boylston St,Ste 110,Chestnut Hill,MA,02467
+HCP0039,1000000039,"Matthew Garcia, MD",Dermatology,Active,1 Charles St S,Ste 300,Boston,MA,02116
+HCP0040,1000000040,"Isabella A. Carter, MD",Dermatology,Active,40 Holland St,Ste 220,Somerville,MA,02144
+HCP0041,1000000041,"Daniel A. Mitchell, MD",Dermatology,Active,2100 Dorchester Ave,Ste 201,Dorchester,MA,02124
+HCP0042,1000000042,"Joseph C. Turner, MD",Dermatology,Active,170 Governors Ave,Ste 202,Medford,MA,02155
+HCP0043,1000000043,"Ethan E. Moore, MD",Dermatology,Active,55 Jamaica St,Ste 210,Jamaica Plain,MA,02130
+HCP0044,1000000044,"Leila C. Robinson, MD",Dermatology,Active,375 Harrison Ave,Suite 2A,Boston,MA,02118
+HCP0045,1000000045,"Maria A. Johnson, MD",Dermatology,Active,830 Boylston St,Ste 110,Chestnut Hill,MA,02467
+HCP0046,1000000046,"Isabella Clark, MD",Dermatology,Active,401 Park Dr,Suite 2,Boston,MA,02215
+HCP0047,1000000047,"Samuel D. Anderson, MD",Dermatology,Active,830 Boylston St,Ste 110,Chestnut Hill,MA,02467
+HCP0048,1000000048,"Ava E. Singh, MD",Dermatology,Active,529 Main St,Ste 204,Charlestown,MA,02129
+HCP0049,1000000049,"James Singh, MD",Dermatology,Active,800 Boylston St,Suite 1600,Boston,MA,02199
+HCP0050,1000000050,"Isabella A. Adams, MD",Dermatology,Active,2100 Dorchester Ave,Ste 201,Dorchester,MA,02124
+HCP0051,1000000051,"Michael D. Taylor, MD",Dermatology,Active,30-07 30th Ave,Ste 1,Astoria,NY,11102
+HCP0052,1000000052,"Matthew C. Perez, MD",Dermatology,Active,136-40 39th Ave,Ste 3A,Flushing,NY,11354
+HCP0053,1000000053,"Daniel A. Allen, MD",Dermatology,Active,47-07 Vernon Blvd,Ste 2,Long Island City,NY,11101
+HCP0054,1000000054,"Charlotte B. King, MD",Dermatology,Active,121 E 60th St,Ste 6A,New York,NY,10022
+HCP0055,1000000055,"Nina E. Scott, MD",Dermatology,Active,210 W 79th St,Ste 1E,New York,NY,10024
+HCP0056,1000000056,"Charlotte C. Nguyen, MD",Dermatology,Active,51 W 51st St,Suite 310,New York,NY,10019
+HCP0057,1000000057,"Charlotte A. Thomas, MD",Dermatology,Active,159 N 3rd St,Ste 2,Brooklyn,NY,11211
+HCP0058,1000000058,"Ethan A. Wright, MD",Dermatology,Active,121 E 60th St,Ste 6A,New York,NY,10022
+HCP0059,1000000059,"Noah C. White, MD",Dermatology,Active,136-40 39th Ave,Ste 3A,Flushing,NY,11354
+HCP0060,1000000060,"Isabella D. Wright, MD",Dermatology,Active,47-07 Vernon Blvd,Ste 2,Long Island City,NY,11101
+HCP0061,1000000061,"Olivia Carter, MD",Dermatology,Active,300 Cadman Plaza W,Ste 2,Brooklyn,NY,11201
+HCP0062,1000000062,"William C. Miller, MD",Dermatology,Active,51 W 51st St,Suite 310,New York,NY,10019
+HCP0063,1000000063,"Michael A. Green, MD",Dermatology,Active,121 E 60th St,Suite 6A,New York,NY,10022
+HCP0064,1000000064,"Olivia C. Miller, MD",Dermatology,Active,2265 5th Ave,Ste 2A,New York,NY,10037
+HCP0065,1000000065,"Sara C. Jackson, MD",Dermatology,Active,200 Rector Pl,Ste 15C,New York,NY,10280
+HCP0066,1000000066,"Elena E. Mitchell, MD",Dermatology,Active,120 Wooster St,Ste 2,New York,NY,10012
+HCP0067,1000000067,"Abigail B. Moore, MD",Dermatology,Active,159 N 3rd St,Ste 2,Brooklyn,NY,11211
+HCP0068,1000000068,"Olivia E. Roberts, MD",Dermatology,Active,140 W 22nd St,Ste 2B,New York,NY,10011
+HCP0069,1000000069,"Olivia Lee, MD",Dermatology,Active,210 W 79th St,Ste 1E,New York,NY,10024
+HCP0070,1000000070,"Andrew D. Green, MD",Dermatology,Active,140 W 22nd St,Suite 2B,New York,NY,10011
+HCP0071,1000000071,"Liam D. Nguyen, MD",Dermatology,Active,300 Cadman Plaza W,Ste 2,Brooklyn,NY,11201
+HCP0072,1000000072,"Noah D. Singh, MD",Dermatology,Active,121 E 60th St,Suite 6A,New York,NY,10022
+HCP0073,1000000073,"Isabella C. Thomas, MD",Dermatology,Active,47-07 Vernon Blvd,Ste 2,Long Island City,NY,11101
+HCP0074,1000000074,"Matthew D. Thomas, MD",Dermatology,Active,155 Chambers St,Ste 200,New York,NY,10007
+HCP0075,1000000075,"Sophia Phillips, MD",Dermatology,Active,121 E 60th St,Ste 6A,New York,NY,10022
+HCP0076,1000000076,"Andrew D. Perez, MD",Dermatology,Active,51 W 51st St,Suite 310,New York,NY,10019
+HCP0077,1000000077,"Benjamin E. Taylor, MD",Dermatology,Active,120 Wooster St,Suite 2,New York,NY,10012
+HCP0078,1000000078,"Priya B. Thomas, MD",Dermatology,Active,121 E 60th St,Suite 6A,New York,NY,10022
+HCP0079,1000000079,"Evelyn C. Martin, MD",Dermatology,Active,51 W 51st St,Suite 310,New York,NY,10019
+HCP0080,1000000080,"Isabella C. Patel, MD",Dermatology,Active,155 Chambers St,Ste 200,New York,NY,10007
+HCP0081,1000000081,"Matthew Martinez, MD",Dermatology,Active,140 W 22nd St,Ste 2B,New York,NY,10011
+HCP0082,1000000082,"Elijah B. Adams, MD",Dermatology,Active,30-07 30th Ave,Ste 1,Astoria,NY,11102
+HCP0082D,1000000082,"E. Adams, MD",Dermatology,Active,1 Gustave L Levy Pl,,New York,NY,10029
+HCP0083,1000000083,"Isabella B. Thomas, MD",Dermatology,Active,200 Rector Pl,Ste 15C,New York,NY,10280
+HCP0084,1000000084,"Liam D. Wright, MD",Dermatology,Active,140 W 22nd St,Suite 2B,New York,NY,10011
+HCP0085,1000000085,"Alexander E. Phillips, MD",Dermatology,Active,140 W 22nd St,Suite 2B,New York,NY,10011
+HCP0086,1000000086,"Ava B. Mitchell, MD",Dermatology,Active,155 Chambers St,Suite 200,New York,NY,10007
+HCP0087,1000000087,"Charlotte B. Brown, MD",Dermatology,Active,47-07 Vernon Blvd,Ste 2,Long Island City,NY,11101
+HCP0087D,1000000087,"C. Brown, MD",Dermatology,Active,550 1st Ave,,New York,NY,10016
+HCP0088,1000000088,"Samuel B. Davis, MD",Dermatology,Active,200 Rector Pl,Ste 15C,New York,NY,10280
+HCP0089,1000000089,"John E. Taylor, MD",Dermatology,Active,51 W 51st St,Suite 310,New York,NY,10019
+HCP0090,1000000090,"Elijah D. Jackson, MD",Dermatology,Active,120 Wooster St,Ste 2,New York,NY,10012
+HCP0091,1000000091,"Benjamin Nguyen, MD",Dermatology,Active,121 E 60th St,Ste 6A,New York,NY,10022
+HCP0092,1000000092,"Lucas Chen, MD",Dermatology,Active,51 W 51st St,Suite 310,New York,NY,10019
+HCP0093,1000000093,"Evelyn A. Jackson, MD",Dermatology,Active,120 Wooster St,Suite 2,New York,NY,10012
+HCP0094,1000000094,"Samuel D. King, MD",Dermatology,Active,2265 5th Ave,Ste 2A,New York,NY,10037
+HCP0095,1000000095,"Harper E. Singh, MD",Dermatology,Active,30-07 30th Ave,Ste 1,Astoria,NY,11102
+HCP0095D,1000000095,"H. Singh, MD",Dermatology,Active,525 E 68th St,,New York,NY,10065
+HCP0096,1000000096,"Sophia D. Robinson, MD",Dermatology,Active,140 W 22nd St,Ste 2B,New York,NY,10011
+HCP0097,1000000097,"Abigail A. King, MD",Dermatology,Active,210 W 79th St,Ste 1E,New York,NY,10024
+HCP0098,1000000098,"Alexander Robinson, MD",Dermatology,Active,51 W 51st St,Ste 310,New York,NY,10019
+HCP0099,1000000099,"Elijah E. Thomas, MD",Dermatology,Active,47-07 Vernon Blvd,Ste 2,Long Island City,NY,11101
+HCP0100,1000000100,"Mei C. Mitchell, MD",Dermatology,Active,155 Chambers St,Ste 200,New York,NY,10007

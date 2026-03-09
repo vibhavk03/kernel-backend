@@ -1,0 +1,51 @@
+﻿onekey_hco_id,hco_name,hco_type,address_line1,address_line2,city,state,zip,status,parent_onekey_hco_id,parent_name
+SYSB001,Mass General Brigham,Health System,399 Revolution Dr,,Somerville,MA,02145,Active,,
+SYSN001,NYU Langone Health,Health System,550 1st Ave,,New York,NY,10016,Active,,
+SYSN002,Mount Sinai Health System,Health System,1 Gustave L Levy Pl,,New York,NY,10029,Active,,
+SYSN003,NewYork-Presbyterian,Health System,525 E 68th St,,New York,NY,10065,Active,,
+HOSB001,Massachusetts General Hospital,Hospital,55 Fruit St,,Boston,MA,02114,Active,SYSB001,Mass General Brigham
+HOSB002,Brigham and Women's Hospital,Hospital,75 Francis St,,Boston,MA,02115,Active,SYSB001,Mass General Brigham
+HOSB003,Beth Israel Deaconess Medical Center,Hospital,330 Brookline Ave,,Boston,MA,02215,Active,,
+HOSN001,NYU Langone Health (Tisch Hospital),Hospital,550 1st Ave,,New York,NY,10016,Active,SYSN001,NYU Langone Health
+HOSN002,Mount Sinai Hospital,Hospital,1 Gustave L Levy Pl,,New York,NY,10029,Active,SYSN002,Mount Sinai Health System
+HOSN003,NewYork-Presbyterian/Weill Cornell Medical Center,Hospital,525 E 68th St,,New York,NY,10065,Active,SYSN003,NewYork-Presbyterian
+CLN0001,Downtown Crossing Dermatology,Clinic,1 Washington St,Ste 620,Boston,MA,02108,Active,,
+CLN0002,Charlestown Dermatology,Clinic,529 Main St,Ste 204,Charlestown,MA,02129,Active,,
+CLN0003,Cambridge Dermatology Center,Clinic,1101 Cambridge St,Ste 200,Cambridge,MA,02141,Active,,
+CLN0004,Brookline Dermatology Group,Clinic,1180 Beacon St,Ste 6C,Brookline,MA,02446,Active,,
+CLN0005,Somerville Dermatology,Clinic,40 Holland St,Ste 220,Somerville,MA,02144,Active,,
+CLN0006,Newton Dermatology,Clinic,2000 Washington St,Ste 400,Newton,MA,02462,Active,,
+CLN0007,Medford Dermatology,Clinic,170 Governors Ave,Ste 202,Medford,MA,02155,Active,,
+CLN0008,Chestnut Hill Dermatology,Clinic,830 Boylston St,Ste 110,Chestnut Hill,MA,02467,Active,,
+CLN0009,Dorchester Dermatology,Clinic,2100 Dorchester Ave,Ste 201,Dorchester,MA,02124,Active,,
+CLN0010,Jamaica Plain Dermatology,Clinic,55 Jamaica St,Ste 210,Jamaica Plain,MA,02130,Active,,
+CLN0011,Harlem Dermatology,Clinic,2265 5th Ave,Ste 2A,New York,NY,10037,Active,SYSN002,Mount Sinai Health System
+CLN0012,Upper West Side Dermatology,Clinic,210 W 79th St,Ste 1E,New York,NY,10024,Active,,
+CLN0013,Downtown Brooklyn Dermatology (NYC),Clinic,300 Cadman Plaza W,Ste 2,Brooklyn,NY,11201,Active,,
+CLN0014,Long Island City Dermatology,Clinic,47-07 Vernon Blvd,Ste 2,Long Island City,NY,11101,Active,,
+CLN0015,Astoria Dermatology,Clinic,30-07 30th Ave,Ste 1,Astoria,NY,11102,Active,,
+CLN0016,Park Slope Dermatology,Clinic,820 5th Ave,Ste 1,Brooklyn,NY,11215,Active,,
+CLN0017,Williamsburg Dermatology,Clinic,159 N 3rd St,Ste 2,Brooklyn,NY,11211,Active,,
+CLN0018,Flushing Dermatology,Clinic,136-40 39th Ave,Ste 3A,Flushing,NY,11354,Active,,
+CLN0019,Staten Island Dermatology,Clinic,1460 Victory Blvd,Ste 2,Staten Island,NY,10301,Active,,
+CLN0020,Battery Park Dermatology,Clinic,200 Rector Pl,Ste 15C,New York,NY,10280,Active,,
+RUPL001,Back Bay Dermatology,Clinic,800 Boylston St,Suite 1600,Boston,MA,02199,Active,,
+RUPN001,MGB Dermatology Network - Back Bay,Clinic,800 Boylston St,Ste 1600,Boston,MA,02199,Active,SYSB001,Mass General Brigham
+RUPL002,Seaport Dermatology,Clinic,88 Seaport Blvd,Suite 250,Boston,MA,02210,Active,,
+RUPN002,MGB Dermatology Network - Seaport,Clinic,88 Seaport Blvd,Ste 250,Boston,MA,02210,Active,SYSB001,Mass General Brigham
+RUPL003,Beacon Hill Dermatology,Clinic,1 Charles St S,Suite 300,Boston,MA,02116,Active,,
+RUPN003,MGB Dermatology Network - Beacon Hill,Clinic,1 Charles St S,Ste 300,Boston,MA,02116,Active,SYSB001,Mass General Brigham
+RUPL004,South End Dermatology,Clinic,375 Harrison Ave,Suite 2A,Boston,MA,02118,Active,,
+RUPN004,MGB Dermatology Network - South End,Clinic,375 Harrison Ave,Ste 2A,Boston,MA,02118,Active,SYSB001,Mass General Brigham
+RUPL005,Fenway Dermatology Associates,Clinic,401 Park Dr,Suite 2,Boston,MA,02215,Active,,
+RUPN005,MGB Dermatology Network - Fenway Associates,Clinic,401 Park Dr,Ste 2,Boston,MA,02215,Active,SYSB001,Mass General Brigham
+RUPL006,Midtown Dermatology,Clinic,51 W 51st St,Suite 310,New York,NY,10019,Active,,
+RUPN006,NYU Langone Health Dermatology - Midtown,Clinic,51 W 51st St,Ste 310,New York,NY,10019,Active,SYSN001,NYU Langone Health
+RUPL007,Upper East Side Dermatology,Clinic,121 E 60th St,Suite 6A,New York,NY,10022,Active,,
+RUPN007,Mount Sinai Health System Dermatology - Upper East Side,Clinic,121 E 60th St,Ste 6A,New York,NY,10022,Active,SYSN002,Mount Sinai Health System
+RUPL008,SoHo Dermatology,Clinic,120 Wooster St,Suite 2,New York,NY,10012,Active,,
+RUPN008,NYU Langone Health Dermatology - SoHo,Clinic,120 Wooster St,Ste 2,New York,NY,10012,Active,SYSN001,NYU Langone Health
+RUPL009,Chelsea Dermatology,Clinic,140 W 22nd St,Suite 2B,New York,NY,10011,Active,,
+RUPN009,Mount Sinai Health System Dermatology - Chelsea,Clinic,140 W 22nd St,Ste 2B,New York,NY,10011,Active,SYSN002,Mount Sinai Health System
+RUPL010,Tribeca Dermatology,Clinic,155 Chambers St,Suite 200,New York,NY,10007,Active,,
+RUPN010,NYU Langone Health Dermatology - Tribeca,Clinic,155 Chambers St,Ste 200,New York,NY,10007,Active,SYSN001,NYU Langone Health
