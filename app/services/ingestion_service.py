@@ -7,6 +7,7 @@ import pandas as pd
 from pathlib import Path
 from sqlalchemy.orm import Session
 from app.repositories.ingestion_repo import IngestionRepository
+from app.validators.iqvia_affiliations_validator import IQVIAAffiliationsValidator
 
 
 class IngestionService:
@@ -14,17 +15,33 @@ class IngestionService:
     @staticmethod
     def process_local_file(db: Session):
         # --- 1. EXTRACT ---
-        # Point to the file in your data_local folder
         base_dir = Path(__file__).resolve().parent.parent
         file_path = base_dir / "data_local" / "IQVIA" / "IQVIA_OneKey_Affiliations.csv"
 
         if not file_path.exists():
             raise FileNotFoundError(f"Could not find file at {file_path}")
 
-        df = pd.read_csv(file_path)
+        # We specify dtypes to ensure consistent reading and to prevent pandas from inferring types that might lead to issues later
+        df = pd.read_csv(
+            file_path,
+            dtype={
+                "onekey_hcp_id": "string",
+                "npi": "string",
+                "onekey_hco_id": "string",
+                "hco_name": "string",
+                "affiliation_type": "string",
+                "affiliation_status": "string",
+            },
+        )
 
-        # --- 2. TRANSFORM ---
-        # Your toy transform
+        # remove rows where every column is empty
+        df = df.dropna(how="all")
+
+        # --- 2. VALIDATE ---
+        df = IQVIAAffiliationsValidator.validate(df)
+
+        # --- 3. TRANSFORM ---
+        # toy transform
         df["processed_by"] = "fastapi_service_layer"
         # Drop empty columns, rename things, etc.
 
