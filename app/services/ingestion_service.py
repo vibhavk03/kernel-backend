@@ -10,9 +10,11 @@ from app.repositories.ingestion_repo import IngestionRepository
 from app.transformers.iqvia_affiliation_transformer import IQVIAAffiliationTransformer
 from app.transformers.iqvia_hcp_transformer import IQVIAHCPTransformer
 from app.transformers.iqvia_hco_transformer import IQVIAHCOTransformer
+from app.transformers.iqvia_rx_transformer import IQVIARXTransformer
 from app.validators.iqvia_affiliation_validator import IQVIAAffiliationValidator
 from app.validators.iqvia_hcp_validator import IQVIAHCPValidator
 from app.validators.iqvia_hco_validator import IQVIAHCOValidator
+from app.validators.iqvia_rx_validator import IQVIARXValidator
 
 
 class IngestionService:
@@ -26,6 +28,7 @@ class IngestionService:
         )
         file_path_hcp = base_dir / "data_local" / "IQVIA" / "IQVIA_OneKey_HCP.csv"
         file_path_hco = base_dir / "data_local" / "IQVIA" / "IQVIA_OneKey_HCO.csv"
+        file_path_rx = base_dir / "data_local" / "IQVIA" / "IQVIA_Xponent_Rx.csv"
 
         if not file_path_affiliation.exists():
             raise FileNotFoundError(f"Could not find file at {file_path_affiliation}")
@@ -35,6 +38,9 @@ class IngestionService:
 
         if not file_path_hco.exists():
             raise FileNotFoundError(f"Could not find file at {file_path_hco}")
+
+        if not file_path_rx.exists():
+            raise FileNotFoundError(f"Could not find file at {file_path_rx}")
 
         # We specify dtypes to ensure consistent reading and to prevent pandas from inferring types that might lead to issues later
         df_affiliation = pd.read_csv(
@@ -82,10 +88,29 @@ class IngestionService:
             },
         )
 
+        df_rx = pd.read_csv(
+            file_path_rx,
+            dtype={
+                "rx_id": "string",
+                "npi": "string",
+                "prescriber_name": "string",
+                "product": "string",
+                "trx": "string",
+                "week_start": "string",
+                "site_name": "string",
+                "site_address_line1": "string",
+                "site_address_line2": "string",
+                "site_city": "string",
+                "site_state": "string",
+                "site_zip": "string",
+            },
+        )
+
         # remove rows where every column is empty
         df_affiliation = df_affiliation.dropna(how="all")
         df_hcp = df_hcp.dropna(how="all")
         df_hco = df_hco.dropna(how="all")
+        df_rx = df_rx.dropna(how="all")
 
         # --- 2. VALIDATE ---
         df_affiliation = IQVIAAffiliationTransformer.transform(df_affiliation)
@@ -97,11 +122,15 @@ class IngestionService:
         df_hco = IQVIAHCOTransformer.transform(df_hco)
         IQVIAHCOValidator.validate(df_hco)
 
+        df_rx = IQVIARXTransformer.transform(df_rx)
+        IQVIARXValidator.validate(df_rx)
+
         # --- 3. TRANSFORM ---
         # toy transform
         df_affiliation["processed_by"] = "fastapi_service_layer"
         df_hcp["processed_by"] = "fastapi_service_layer"
         df_hco["processed_by"] = "fastapi_service_layer"
+        df_rx["processed_by"] = "fastapi_service_layer"
         # Drop empty columns, rename things, etc.
 
         # --- 3. LOAD (Pass to Repository) ---
@@ -114,11 +143,14 @@ class IngestionService:
 
         hco_rows = IngestionRepository.save_dataframe(db, df_hco, "raw_iqvia_hcos")
 
+        rx_rows = IngestionRepository.save_dataframe(db, df_rx, "raw_iqvia_rxs")
+
         return {
             "message": "ETL complete",
             "affiliation_rows": affiliation_rows,
             "hcp_rows": hcp_rows,
             "hco_rows": hco_rows,
+            "rx_rows": rx_rows,
         }
 
 
