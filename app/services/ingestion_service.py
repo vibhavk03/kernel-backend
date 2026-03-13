@@ -11,10 +11,14 @@ from app.transformers.iqvia_affiliation_transformer import IQVIAAffiliationTrans
 from app.transformers.iqvia_hcp_transformer import IQVIAHCPTransformer
 from app.transformers.iqvia_hco_transformer import IQVIAHCOTransformer
 from app.transformers.iqvia_rx_transformer import IQVIARXTransformer
+from app.transformers.komodo_patient_events_transformer import (
+    KomodoPatientEventsTransformer,
+)
 from app.validators.iqvia_affiliation_validator import IQVIAAffiliationValidator
 from app.validators.iqvia_hcp_validator import IQVIAHCPValidator
 from app.validators.iqvia_hco_validator import IQVIAHCOValidator
 from app.validators.iqvia_rx_validator import IQVIARXValidator
+from app.validators.komodo_patient_events_validator import KomodoPatientEventsValidator
 
 
 class IngestionService:
@@ -29,6 +33,9 @@ class IngestionService:
         file_path_hcp = base_dir / "data_local" / "IQVIA" / "IQVIA_OneKey_HCP.csv"
         file_path_hco = base_dir / "data_local" / "IQVIA" / "IQVIA_OneKey_HCO.csv"
         file_path_rx = base_dir / "data_local" / "IQVIA" / "IQVIA_Xponent_Rx.csv"
+        file_path_patient_events = (
+            base_dir / "data_local" / "Komodo" / "Komodo_Patient_Events.csv"
+        )
 
         if not file_path_affiliation.exists():
             raise FileNotFoundError(f"Could not find file at {file_path_affiliation}")
@@ -41,6 +48,11 @@ class IngestionService:
 
         if not file_path_rx.exists():
             raise FileNotFoundError(f"Could not find file at {file_path_rx}")
+
+        if not file_path_patient_events.exists():
+            raise FileNotFoundError(
+                f"Could not find file at {file_path_patient_events}"
+            )
 
         # We specify dtypes to ensure consistent reading and to prevent pandas from inferring types that might lead to issues later
         df_affiliation = pd.read_csv(
@@ -106,11 +118,30 @@ class IngestionService:
             },
         )
 
+        df_patient_events = pd.read_csv(
+            file_path_patient_events,
+            dtype={
+                "event_id": "string",
+                "patient_id": "string",
+                "event_date": "string",
+                "event_type": "string",
+                "rendering_npi": "string",
+                "rendering_hcp_name": "string",
+                "facility_name": "string",
+                "facility_address_line1": "string",
+                "facility_city": "string",
+                "facility_state": "string",
+                "facility_zip": "string",
+                "diagnosis": "string",
+            },
+        )
+
         # remove rows where every column is empty
         df_affiliation = df_affiliation.dropna(how="all")
         df_hcp = df_hcp.dropna(how="all")
         df_hco = df_hco.dropna(how="all")
         df_rx = df_rx.dropna(how="all")
+        df_patient_events = df_patient_events.dropna(how="all")
 
         # --- 2. VALIDATE ---
         df_affiliation = IQVIAAffiliationTransformer.transform(df_affiliation)
@@ -125,12 +156,16 @@ class IngestionService:
         df_rx = IQVIARXTransformer.transform(df_rx)
         IQVIARXValidator.validate(df_rx)
 
+        df_patient_events = KomodoPatientEventsTransformer.transform(df_patient_events)
+        KomodoPatientEventsValidator.validate(df_patient_events)
+
         # --- 3. TRANSFORM ---
         # toy transform
         df_affiliation["processed_by"] = "fastapi_service_layer"
         df_hcp["processed_by"] = "fastapi_service_layer"
         df_hco["processed_by"] = "fastapi_service_layer"
         df_rx["processed_by"] = "fastapi_service_layer"
+        df_patient_events["processed_by"] = "fastapi_service_layer"
         # Drop empty columns, rename things, etc.
 
         # --- 3. LOAD (Pass to Repository) ---
@@ -145,12 +180,17 @@ class IngestionService:
 
         rx_rows = IngestionRepository.save_dataframe(db, df_rx, "raw_iqvia_rxs")
 
+        patient_rows = IngestionRepository.save_dataframe(
+            db, df_patient_events, "raw_komodo_patient_events"
+        )
+
         return {
             "message": "ETL complete",
             "affiliation_rows": affiliation_rows,
             "hcp_rows": hcp_rows,
             "hco_rows": hco_rows,
             "rx_rows": rx_rows,
+            "patient_rows": patient_rows,
         }
 
 
