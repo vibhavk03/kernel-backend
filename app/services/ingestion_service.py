@@ -14,11 +14,13 @@ from app.transformers.iqvia_rx_transformer import IQVIARXTransformer
 from app.transformers.komodo_patient_events_transformer import (
     KomodoPatientEventsTransformer,
 )
+from app.transformers.crm_targeting_transformer import CRMTargetingTransformer
 from app.validators.iqvia_affiliation_validator import IQVIAAffiliationValidator
 from app.validators.iqvia_hcp_validator import IQVIAHCPValidator
 from app.validators.iqvia_hco_validator import IQVIAHCOValidator
 from app.validators.iqvia_rx_validator import IQVIARXValidator
 from app.validators.komodo_patient_events_validator import KomodoPatientEventsValidator
+from app.validators.crm_targeting_validator import CRMTargetingValidator
 
 
 class IngestionService:
@@ -36,6 +38,7 @@ class IngestionService:
         file_path_patient_events = (
             base_dir / "data_local" / "Komodo" / "Komodo_Patient_Events.csv"
         )
+        file_path_crm_targeting = base_dir / "data_local" / "CRM" / "CRM_Targeting.csv"
 
         if not file_path_affiliation.exists():
             raise FileNotFoundError(f"Could not find file at {file_path_affiliation}")
@@ -53,6 +56,9 @@ class IngestionService:
             raise FileNotFoundError(
                 f"Could not find file at {file_path_patient_events}"
             )
+
+        if not file_path_crm_targeting.exists():
+            raise FileNotFoundError(f"Could not find file at {file_path_crm_targeting}")
 
         # We specify dtypes to ensure consistent reading and to prevent pandas from inferring types that might lead to issues later
         df_affiliation = pd.read_csv(
@@ -136,12 +142,28 @@ class IngestionService:
             },
         )
 
+        df_crm_targeting = pd.read_csv(
+            file_path_crm_targeting,
+            dtype={
+                "rep_id": "string",
+                "rep_name": "string",
+                "territory": "string",
+                "crm_account_id": "string",
+                "account_name": "string",
+                "npi": "string",
+                "hcp_name": "string",
+                "target_tier": "string",
+                "preferred_location_flag": "string",
+            },
+        )
+
         # remove rows where every column is empty
         df_affiliation = df_affiliation.dropna(how="all")
         df_hcp = df_hcp.dropna(how="all")
         df_hco = df_hco.dropna(how="all")
         df_rx = df_rx.dropna(how="all")
         df_patient_events = df_patient_events.dropna(how="all")
+        df_crm_targeting = df_crm_targeting.dropna(how="all")
 
         # --- 2. VALIDATE ---
         df_affiliation = IQVIAAffiliationTransformer.transform(df_affiliation)
@@ -159,6 +181,9 @@ class IngestionService:
         df_patient_events = KomodoPatientEventsTransformer.transform(df_patient_events)
         KomodoPatientEventsValidator.validate(df_patient_events)
 
+        df_crm_targeting = CRMTargetingTransformer.transform(df_crm_targeting)
+        CRMTargetingValidator.validate(df_crm_targeting)
+
         # --- 3. TRANSFORM ---
         # toy transform
         df_affiliation["processed_by"] = "fastapi_service_layer"
@@ -166,6 +191,7 @@ class IngestionService:
         df_hco["processed_by"] = "fastapi_service_layer"
         df_rx["processed_by"] = "fastapi_service_layer"
         df_patient_events["processed_by"] = "fastapi_service_layer"
+        df_crm_targeting["processed_by"] = "fastapi_service_layer"
         # Drop empty columns, rename things, etc.
 
         # --- 3. LOAD (Pass to Repository) ---
@@ -183,6 +209,9 @@ class IngestionService:
         patient_rows = IngestionRepository.save_dataframe(
             db, df_patient_events, "raw_komodo_patient_events"
         )
+        crm_targeting_rows = IngestionRepository.save_dataframe(
+            db, df_crm_targeting, "raw_crm_targeting"
+        )
 
         return {
             "message": "ETL complete",
@@ -191,6 +220,7 @@ class IngestionService:
             "hco_rows": hco_rows,
             "rx_rows": rx_rows,
             "patient_rows": patient_rows,
+            "crm_targeting_rows": crm_targeting_rows,
         }
 
 
