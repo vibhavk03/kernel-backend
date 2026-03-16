@@ -15,12 +15,14 @@ from app.transformers.komodo_patient_events_transformer import (
     KomodoPatientEventsTransformer,
 )
 from app.transformers.crm_targeting_transformer import CRMTargetingTransformer
+from app.transformers.crm_accounts_transformer import CRMAccountsTransformer
 from app.validators.iqvia_affiliation_validator import IQVIAAffiliationValidator
 from app.validators.iqvia_hcp_validator import IQVIAHCPValidator
 from app.validators.iqvia_hco_validator import IQVIAHCOValidator
 from app.validators.iqvia_rx_validator import IQVIARXValidator
 from app.validators.komodo_patient_events_validator import KomodoPatientEventsValidator
 from app.validators.crm_targeting_validator import CRMTargetingValidator
+from app.validators.crm_accounts_validator import CRMAccountsValidator
 
 
 class IngestionService:
@@ -39,6 +41,7 @@ class IngestionService:
             base_dir / "data_local" / "Komodo" / "Komodo_Patient_Events.csv"
         )
         file_path_crm_targeting = base_dir / "data_local" / "CRM" / "CRM_Targeting.csv"
+        file_path_crm_accounts = base_dir / "data_local" / "CRM" / "CRM_Accounts.csv"
 
         if not file_path_affiliation.exists():
             raise FileNotFoundError(f"Could not find file at {file_path_affiliation}")
@@ -59,6 +62,8 @@ class IngestionService:
 
         if not file_path_crm_targeting.exists():
             raise FileNotFoundError(f"Could not find file at {file_path_crm_targeting}")
+        if not file_path_crm_accounts.exists():
+            raise FileNotFoundError(f"Could not find file at {file_path_crm_accounts}")
 
         # We specify dtypes to ensure consistent reading and to prevent pandas from inferring types that might lead to issues later
         df_affiliation = pd.read_csv(
@@ -157,6 +162,23 @@ class IngestionService:
             },
         )
 
+        df_crm_accounts = pd.read_csv(
+            file_path_crm_accounts,
+            dtype={
+                "crm_account_id": "string",
+                "account_name": "string",
+                "account_type": "string",
+                "address_line1": "string",
+                "address_line2": "string",
+                "city": "string",
+                "state": "string",
+                "zip": "string",
+                "linked_onekey_hco_id": "string",
+                "parent_account_name": "string",
+                "notes": "string",
+            },
+        )
+
         # remove rows where every column is empty
         df_affiliation = df_affiliation.dropna(how="all")
         df_hcp = df_hcp.dropna(how="all")
@@ -164,6 +186,7 @@ class IngestionService:
         df_rx = df_rx.dropna(how="all")
         df_patient_events = df_patient_events.dropna(how="all")
         df_crm_targeting = df_crm_targeting.dropna(how="all")
+        df_crm_accounts = df_crm_accounts.dropna(how="all")
 
         # --- 2. VALIDATE ---
         df_affiliation = IQVIAAffiliationTransformer.transform(df_affiliation)
@@ -184,6 +207,9 @@ class IngestionService:
         df_crm_targeting = CRMTargetingTransformer.transform(df_crm_targeting)
         CRMTargetingValidator.validate(df_crm_targeting)
 
+        df_crm_accounts = CRMAccountsTransformer.transform(df_crm_accounts)
+        CRMAccountsValidator.validate(df_crm_accounts)
+
         # --- 3. TRANSFORM ---
         # toy transform
         df_affiliation["processed_by"] = "fastapi_service_layer"
@@ -192,6 +218,7 @@ class IngestionService:
         df_rx["processed_by"] = "fastapi_service_layer"
         df_patient_events["processed_by"] = "fastapi_service_layer"
         df_crm_targeting["processed_by"] = "fastapi_service_layer"
+        df_crm_accounts["processed_by"] = "fastapi_service_layer"
         # Drop empty columns, rename things, etc.
 
         # --- 3. LOAD (Pass to Repository) ---
@@ -212,6 +239,9 @@ class IngestionService:
         crm_targeting_rows = IngestionRepository.save_dataframe(
             db, df_crm_targeting, "raw_crm_targeting"
         )
+        crm_accounts_rows = IngestionRepository.save_dataframe(
+            db, df_crm_accounts, "raw_crm_accounts"
+        )
 
         return {
             "message": "ETL complete",
@@ -221,6 +251,7 @@ class IngestionService:
             "rx_rows": rx_rows,
             "patient_rows": patient_rows,
             "crm_targeting_rows": crm_targeting_rows,
+            "crm_accounts_rows": crm_accounts_rows,
         }
 
 
