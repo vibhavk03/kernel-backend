@@ -10,3 +10,4 @@ python-dotenv
 ipykernel
 matplotlib
 boto3
+apscheduler
