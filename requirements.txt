@@ -9,3 +9,4 @@ pydantic-settings
 python-dotenv
 ipykernel
 matplotlib
+boto3
