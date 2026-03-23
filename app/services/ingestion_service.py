@@ -31,7 +31,7 @@ class IngestionService:
 
     @staticmethod
     def process_files(db: Session):
-        # --- 1. EXTRACT ---
+        # --- 1. EXTRACT FROM S3 ---
         s3_service = S3Service()
 
         expected_files = {
@@ -44,7 +44,6 @@ class IngestionService:
             "crm_accounts": "CRM_Accounts.csv",
         }
 
-        # --- 1. EXTRACT FROM S3 ---
         df_affiliation = pd.read_csv(
             s3_service.get_file_bytes(expected_files["affiliation"]),
             # We specify dtypes to ensure consistent reading and to prevent pandas from inferring types that might lead to issues later
@@ -182,6 +181,7 @@ class IngestionService:
         CRMAccountsValidator.validate(df_crm_accounts)
 
         # --- 3. TRANSFORM ---
+        # Barbie & Grace's transformation logic would go here to create our new table in db
         # toy transform
         df_affiliation["processed_by"] = "fastapi_service_layer"
         df_hcp["processed_by"] = "fastapi_service_layer"
@@ -194,6 +194,7 @@ class IngestionService:
 
         # --- 3. LOAD (Pass to Repository) ---
         # We let the repository handle the actual database insertion
+        # We would be removing this saving to db part and instead only saving our new table to db
         affiliation_rows = IngestionRepository.save_dataframe(
             db, df_affiliation, "raw_iqvia_affiliations"
         )
