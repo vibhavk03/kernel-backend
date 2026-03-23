@@ -67,6 +67,10 @@ class CRMAccountsTransformer:
 
     @classmethod
     def transform(cls, df: pd.DataFrame) -> pd.DataFrame:
+
+        # remove rows where every column is empty
+        df = df.dropna(how="all")
+
         df = df.copy()
         df.columns = [col.strip() for col in df.columns]
 

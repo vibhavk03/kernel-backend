@@ -159,15 +159,6 @@ class IngestionService:
             },
         )
 
-        # remove rows where every column is empty
-        df_affiliation = df_affiliation.dropna(how="all")
-        df_hcp = df_hcp.dropna(how="all")
-        df_hco = df_hco.dropna(how="all")
-        df_rx = df_rx.dropna(how="all")
-        df_patient_events = df_patient_events.dropna(how="all")
-        df_crm_targeting = df_crm_targeting.dropna(how="all")
-        df_crm_accounts = df_crm_accounts.dropna(how="all")
-
         # --- 2. VALIDATE ---
         df_affiliation = IQVIAAffiliationTransformer.transform(df_affiliation)
         IQVIAAffiliationValidator.validate(df_affiliation)

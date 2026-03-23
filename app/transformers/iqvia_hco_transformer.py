@@ -72,6 +72,10 @@ class IQVIAHCOTransformer:
     @classmethod
     def transform(cls, df: pd.DataFrame) -> pd.DataFrame:
         """Perform all necessary transformations and standardizations on the HCO dataframe"""
+
+        # remove rows where every column is empty
+        df = df.dropna(how="all")
+
         df = df.copy()
         df.columns = [col.strip() for col in df.columns]
 

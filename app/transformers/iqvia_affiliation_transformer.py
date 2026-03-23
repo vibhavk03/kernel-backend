@@ -36,6 +36,10 @@ class IQVIAAffiliationTransformer:
     @classmethod
     def transform(cls, df: pd.DataFrame) -> pd.DataFrame:
         """Applies all transformations to clean and normalize the DataFrame."""
+
+        # remove rows where every column is empty
+        df = df.dropna(how="all")
+
         df = df.copy()
         df.columns = [col.strip() for col in df.columns]
 

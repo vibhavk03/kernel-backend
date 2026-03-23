@@ -97,6 +97,10 @@ class KomodoPatientEventsTransformer:
     @classmethod
     def transform(cls, df: pd.DataFrame) -> pd.DataFrame:
         """Apply transformations to the Komodo patient events DataFrame to clean and normalize data."""
+
+        # remove rows where every column is empty
+        df = df.dropna(how="all")
+
         df = df.copy()
         df.columns = [col.strip() for col in df.columns]
 
