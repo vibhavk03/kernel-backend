@@ -1,26 +1,8 @@
 import pandas as pd
-from pathlib import Path
 from sqlalchemy.orm import Session
 from app.repositories.ingestion_repo import IngestionRepository
 from app.repositories.ingestion_repo import IngestionRepository
 from app.services.s3_service import S3Service
-from app.transformers.iqvia_affiliation_transformer import IQVIAAffiliationTransformer
-from app.transformers.iqvia_hcp_transformer import IQVIAHCPTransformer
-from app.transformers.iqvia_hco_transformer import IQVIAHCOTransformer
-from app.transformers.iqvia_rx_transformer import IQVIARXTransformer
-from app.transformers.komodo_patient_events_transformer import (
-    KomodoPatientEventsTransformer,
-)
-from app.transformers.crm_targeting_transformer import CRMTargetingTransformer
-from app.transformers.crm_accounts_transformer import CRMAccountsTransformer
-from app.validators.iqvia_affiliation_validator import IQVIAAffiliationValidator
-from app.validators.iqvia_hcp_validator import IQVIAHCPValidator
-from app.validators.iqvia_hco_validator import IQVIAHCOValidator
-from app.validators.iqvia_rx_validator import IQVIARXValidator
-from app.validators.komodo_patient_events_validator import KomodoPatientEventsValidator
-from app.validators.crm_targeting_validator import CRMTargetingValidator
-from app.validators.crm_accounts_validator import CRMAccountsValidator
-
 from app.core.ingestion_config import INGESTION_FILE_CONFIGS
 
 
