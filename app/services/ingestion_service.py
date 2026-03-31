@@ -7,16 +7,10 @@ from app.services.s3_service import S3Service
 from app.core.ingestion_config import INGESTION_FILE_CONFIGS
 from app.core.config import settings
 from app.utils.build_analytics_table import build_analytics_table
+from app.utils.build_final_signature import build_final_signature
 
 
 class IngestionService:
-
-    @staticmethod
-    def _build_final_signature(processed_files: dict) -> str:
-        parts = []
-        for source_name, file_info in sorted(processed_files.items()):
-            parts.append(f"{source_name}:{file_info['etag']}")
-        return "|".join(parts)
 
     @staticmethod
     def process_files(db: Session):
@@ -54,13 +48,11 @@ class IngestionService:
         # --- 2. CROSS-FILE TRANSFORM LOGIC ---
         # Barbie & Grace's transformation logic would go here to create our new table in db
         # Toy transform
-        # would need idempotency logic here as well, will implment it after we finalize the transformation logic
-        # right now skipping this if all files are already processed
         analytics_df = build_analytics_table(processed_files)
         analytics_df["processed_by"] = "fastapi_service_layer"
 
         table_name = "provider_analytics"
-        final_signature = IngestionService._build_final_signature(processed_files)
+        final_signature = build_final_signature(processed_files)
 
         # --- 3. IDEMPOTENCY CHECK ---
         if settings.IDEMPOTENCY_ENABLED:
