@@ -1,7 +1,6 @@
 import pandas as pd
 from sqlalchemy.orm import Session
-from app.repositories.ingestion_repo import IngestionRepository
-from app.repositories.ingestion_repo import IngestionRepository
+from app.models.ingestion_run import IngestionRunType
 from app.repositories.ingestion_tracking_repo import IngestionTrackingRepository
 from app.repositories.provider_analytics_repo import ProviderAnalyticsRepository
 from app.services.s3_service import S3Service
@@ -11,6 +10,13 @@ from app.utils.build_analytics_table import build_analytics_table
 
 
 class IngestionService:
+
+    @staticmethod
+    def _build_final_signature(processed_files: dict) -> str:
+        parts = []
+        for source_name, file_info in sorted(processed_files.items()):
+            parts.append(f"{source_name}:{file_info['etag']}")
+        return "|".join(parts)
 
     @staticmethod
     def process_files(db: Session):
@@ -26,8 +32,10 @@ class IngestionService:
             validator = config["validator"]
             target_table = config["target_table"]
 
+            file_bytes, metadata = s3_service.get_file_with_metadata(s3_key)
+
             df = pd.read_csv(
-                s3_service.get_file_bytes(s3_key),
+                file_bytes,
                 dtype=dtype_map,
             )
 
@@ -36,10 +44,11 @@ class IngestionService:
 
             processed_files[source_name] = {
                 "key": s3_key,
+                "etag": metadata["etag"],
+                "last_modified": metadata["last_modified"],
                 "target_table": target_table,
                 "df": df,
                 "status": "validated",
-                "rows_loaded": None,
             }
 
         # --- 2. CROSS-FILE TRANSFORM LOGIC ---
@@ -50,12 +59,63 @@ class IngestionService:
         analytics_df = build_analytics_table(processed_files)
         analytics_df["processed_by"] = "fastapi_service_layer"
 
-        # --- 3. LOAD TO DB ---
         table_name = "provider_analytics"
+        final_signature = IngestionService._build_final_signature(processed_files)
+
+        # --- 3. IDEMPOTENCY CHECK ---
+        if settings.IDEMPOTENCY_ENABLED:
+            already_processed = IngestionTrackingRepository.already_processed(
+                db=db,
+                run_type=IngestionRunType.DERIVED_TABLE,
+                s3_key=table_name,
+                etag=final_signature,
+                target_table=table_name,
+            )
+
+            if already_processed:
+                # adding ingestion run record with status skipped here for tracking purposes
+                IngestionTrackingRepository.create_record(
+                    db=db,
+                    run_type=IngestionRunType.DERIVED_TABLE,
+                    source_name=table_name,
+                    s3_key=table_name,
+                    etag=final_signature,
+                    target_table=table_name,
+                    status="skipped",
+                    rows_loaded=0,
+                )
+
+                return {
+                    "message": "ETL skipped - provider analytics already up to date",
+                    "idempotency_enabled": True,
+                    "results": {
+                        "target_table": table_name,
+                        "status": "skipped",
+                        "rows_loaded": 0,
+                    },
+                }
+
+        # --- 4. LOAD TO DB ---
+
+        # if not already processed, or not up to date, we first clear the table
+        ProviderAnalyticsRepository.clear_table(db, table_name)
+
         rows_loaded = ProviderAnalyticsRepository.save_dataframe(
             db,
             analytics_df,
             table_name,
+        )
+
+        # adding ingestion run record with final signature
+        IngestionTrackingRepository.create_record(
+            db=db,
+            run_type=IngestionRunType.DERIVED_TABLE,
+            source_name=table_name,
+            s3_key=table_name,
+            etag=final_signature,
+            target_table=table_name,
+            status="success",
+            rows_loaded=rows_loaded,
         )
 
         # --- 4. RESPONSE SUMMARY ---

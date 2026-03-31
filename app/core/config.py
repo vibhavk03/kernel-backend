@@ -3,6 +3,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     DATABASE_URL: str
+    IDEMPOTENCY_ENABLED: bool
 
     aws_access_key_id: str
     aws_secret_access_key: str
